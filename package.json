@@ -19,5 +19,8 @@
   "homepage": "https://github.com/soha-moosa/node-auth-kit#readme",
   "devDependencies": {
     "nodemon": "^1.19.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
