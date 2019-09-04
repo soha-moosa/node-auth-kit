@@ -1,0 +1,23 @@
+{
+  "name": "node-auth-kit",
+  "version": "1.0.0",
+  "description": "A starter boiler plate for node application with authentication, which includes Google, Facebook and email/password authentication strategies using passport & JWT.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soha-moosa/node-auth-kit.git"
+  },
+  "author": "Soha Moosa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/soha-moosa/node-auth-kit/issues"
+  },
+  "homepage": "https://github.com/soha-moosa/node-auth-kit#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}
