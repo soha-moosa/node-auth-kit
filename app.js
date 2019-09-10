@@ -1,8 +1,49 @@
 const app = require('express')();
 const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
+const authRoutes = require('./routes/auth');
+const User = require('./models/user');
+
+const store = new MongoDBStore({
+  uri: process.env.MONGODB_URI,
+  collection: 'sessions'
+});
+
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
+
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
+app.use(authRoutes);
 
 mongoose
-  .connect(process.env.URI, { useNewUrlParser: true, useFindAndModify: false })
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useFindAndModify: false
+  })
   .then(() => {
     console.log(`Connected Successfully to MongoDB!`);
     app.listen(process.env.PORT, () => {
