@@ -7,7 +7,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
 
 const authRoutes = require('./routes/auth');
-const User = require('./models/user');
+const authMiddleware = require('./middleware/auth-middleware');
 
 const store = new MongoDBStore({
   uri: process.env.MONGODB_URI,
@@ -23,7 +23,7 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    store: store
+    store
   })
 );
 
@@ -31,17 +31,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
-  if (!req.session.user) {
-    return next();
-  }
-  User.findById(req.session.user._id)
-    .then(user => {
-      req.user = user;
-      next();
-    })
-    .catch(err => console.log(err));
-});
+app.use(authMiddleware.isUser);
 app.use(authRoutes);
 
 mongoose
