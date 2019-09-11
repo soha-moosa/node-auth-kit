@@ -28,7 +28,8 @@ exports.signup = async (req, res, next) => {
       return res.status(409).send(errors.array()[0].msg);
     }
 
-    await bcrypt.hash(password, 12).then(hashedPassword => {
+    const hashedPassword = await bcrypt.hash(password, 12);
+    if (hashedPassword) {
       const newUser = new User({
         method: 'local',
         local: {
@@ -36,16 +37,16 @@ exports.signup = async (req, res, next) => {
           password: hashedPassword
         }
       });
-      newUser.save();
-      const token = signToken(newUser);
-      res.status(200).send({
+      const user = await newUser.save();
+      const token = signToken(user);
+      sendMail(req.body.email, res);
+      return res.status(200).send({
         token,
-        _id: newUser._id,
-        email: newUser.local.email,
+        _id: user._id,
+        email: user.local.email,
         message: 'User registered successfully!'
       });
-      sendMail(req.body.email, res);
-    });
+    }
   } catch (err) {
     res.status(500).send(err);
   }
