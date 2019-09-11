@@ -8,9 +8,9 @@ const sendMail = require('../services/sendGrid');
 require('./passport');
 
 const signToken = user => {
-  jwt.sign(
+  return jwt.sign(
     {
-      iss: process.env.ISSUER,
+      iss: user._id,
       sub: process.env.JWT_SUBJECT,
       iat: new Date().getTime(),
       expiresIn: '1 day'
@@ -36,9 +36,14 @@ exports.signup = async (req, res, next) => {
           password: hashedPassword
         }
       });
-
       newUser.save();
-      res.status(200).send('User registered successfully!');
+      const token = signToken(newUser);
+      res.status(200).send({
+        token,
+        _id: newUser._id,
+        email: newUser.local.email,
+        message: 'User registered successfully!'
+      });
       sendMail(req.body.email, res);
     });
   } catch (err) {
