@@ -39,4 +39,21 @@ router.post(
   authController.signup
 );
 
+router.post(
+  '/login',
+  [
+    body('email', 'Please enter a valid email address')
+      .isEmail()
+      .normalizeEmail(),
+    body(
+      'password',
+      'Please enter a Alphanumeric password and at least 5 characters long.'
+    )
+      .isLength({ min: 5 })
+      .isAlphanumeric()
+      .trim()
+  ],
+  authController.login
+);
+
 module.exports = router;

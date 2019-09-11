@@ -2,8 +2,23 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendGridTransport = require('nodemailer-sendgrid-transport');
 const { validationResult } = require('express-validator');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+require('./passport');
+
+const signToken = user => {
+  jwt.sign(
+    {
+      iss: process.env.ISSUER,
+      sub: process.env.JWT_SUBJECT,
+      iat: new Date().getTime(),
+      expiresIn: '1 day'
+    },
+    process.env.SECRET
+  );
+};
 
 const transporter = nodemailer.createTransport(
   sendGridTransport({
@@ -60,4 +75,28 @@ exports.signup = (req, res, next) => {
       );
     })
     .catch(err => console.log(err));
+};
+
+exports.login = (req, res, next) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    return res.status(404).send(validationErrors.array()[0].msg);
+  }
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return res.status(404).send(err);
+    if (user) {
+      req.session.user = user;
+      return req.session.save(err => {
+        if (err) return res.status(404).send(err);
+        const token = signToken(req.user);
+        res.status(200).send({
+          token,
+          _id: user._id,
+          email: user.local.email
+        });
+      });
+    } else {
+      return res.status(401).send(info);
+    }
+  })(req, res, next);
 };

@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const passport = require('passport');
 
 const authRoutes = require('./routes/auth');
 const User = require('./models/user');
@@ -25,6 +26,10 @@ app.use(
     store: store
   })
 );
+
+// passport initialization.
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use((req, res, next) => {
   if (!req.session.user) {
