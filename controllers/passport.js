@@ -51,9 +51,9 @@ passport.use(
           facebook: {
             id: profile.id,
             email: profile.emails[0].value,
-            full_name: profile.displayName,
-            first_name: profile.name.givenName,
-            last_name: profile.name.familyName
+            fullName: profile.displayName,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName
           }
         });
         await newUser.save();

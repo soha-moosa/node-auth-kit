@@ -20,9 +20,9 @@ const userModel = new Schema({
   facebook: {
     id: String,
     email: String,
-    full_name: String,
-    first_name: String,
-    last_name: String
+    fullName: String,
+    firstName: String,
+    lastName: String
   }
 });
 
