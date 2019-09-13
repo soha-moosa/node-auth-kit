@@ -6,18 +6,23 @@ const { Schema } = mongoose;
 const userModel = new Schema({
   method: {
     type: String,
-    enum: ['local'],
+    enum: ['local', 'facebook'],
     required: true
   },
   local: {
     email: {
-      type: String,
-      required: true
+      type: String
     },
     password: {
-      type: String,
-      required: true
+      type: String
     }
+  },
+  facebook: {
+    id: String,
+    email: String,
+    full_name: String,
+    first_name: String,
+    last_name: String
   }
 });
 
