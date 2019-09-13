@@ -1,4 +1,7 @@
+const passport = require('passport');
+
 const User = require('../models/user');
+require('../controllers/passport');
 
 exports.isUser = (req, res, next) => {
   if (!req.session.user) {
@@ -11,3 +14,7 @@ exports.isUser = (req, res, next) => {
     })
     .catch(err => res.status(500).send(err));
 };
+
+exports.authenticateFacebookStrategy = passport.authenticate('facebook', {
+  session: false
+});

@@ -42,8 +42,6 @@ exports.signup = async (req, res, next) => {
       sendMail(req.body.email, res);
       return res.status(200).send({
         token,
-        _id: user._id,
-        email: user.local.email,
         message: 'User registered successfully!'
       });
     }
@@ -67,8 +65,7 @@ exports.login = async (req, res, next) => {
           const token = signToken(req.user);
           res.status(200).send({
             token,
-            _id: user._id,
-            email: user.local.email
+            message: 'Logged in successfully!'
           });
         });
       } else {
@@ -76,6 +73,33 @@ exports.login = async (req, res, next) => {
       }
     })(req, res, next);
   } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+exports.facebookLogin = async (req, res) => {
+  try {
+    if (req.user.err) {
+      return res.status(401).send({
+        message: 'Facebook authentication failed!',
+        error
+      });
+    } else if (req.user) {
+      req.session.user = req.user;
+      return req.session.save(err => {
+        if (err) return res.status(404).send(err);
+        const token = signToken(req.user);
+        return res.status(200).send({
+          token,
+          message: 'Logged in successfully via facebook!'
+        });
+      });
+    } else {
+      return res.status(401).send({
+        message: 'Facebook authentication failed!'
+      });
+    }
+  } catch (error) {
     res.status(500).send(err);
   }
 };
