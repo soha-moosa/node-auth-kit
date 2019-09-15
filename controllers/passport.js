@@ -66,6 +66,11 @@ passport.use(
   )
 );
 
+/**
+ * @GooglePlusTokenStrategy : The Google Plus authentication strategy authenticates users using a
+ *                          Google Plus account and OAuth 2.0 tokens.
+ */
+
 passport.use(
   'googleToken',
   new GooglePlusTokenStrategy(
