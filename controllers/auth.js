@@ -103,3 +103,30 @@ exports.facebookLogin = async (req, res) => {
     res.status(500).send(err);
   }
 };
+
+exports.googleLogin = async (req, res) => {
+  try {
+    if (req.user.err) {
+      return res.status(401).send({
+        message: 'Google authentication failed!',
+        error
+      });
+    } else if (req.user) {
+      req.session.user = req.user;
+      return req.session.save(err => {
+        if (err) return res.status(404).send(err);
+        const token = signToken(req.user);
+        return res.status(200).send({
+          token,
+          message: 'Logged in successfully via google!'
+        });
+      });
+    } else {
+      return res.status(401).send({
+        message: 'Google authentication failed!'
+      });
+    }
+  } catch (error) {
+    res.status(500).send(err);
+  }
+};

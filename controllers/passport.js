@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const FacebookStrategy = require('passport-facebook-token');
+const FacebookTokenStrategy = require('passport-facebook-token');
+const GooglePlusTokenStrategy = require('passport-google-plus-token');
 
 const User = require('../models/user');
 
@@ -29,13 +30,13 @@ passport.use(
 );
 
 /**
- * @FacebookStrategy : The Facebook authentication strategy authenticates users using a Facebook
+ * @FacebookTokenStrategy : The Facebook authentication strategy authenticates users using a Facebook
  *                     account and OAuth 2.0 tokens.
  */
 
 passport.use(
-  'facebook',
-  new FacebookStrategy(
+  'facebookToken',
+  new FacebookTokenStrategy(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET
@@ -49,6 +50,38 @@ passport.use(
         const newUser = new User({
           method: 'facebook',
           facebook: {
+            id: profile.id,
+            email: profile.emails[0].value,
+            fullName: profile.displayName,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName
+          }
+        });
+        await newUser.save();
+        cb(null, newUser);
+      } catch (err) {
+        cb(err, false, err.message);
+      }
+    }
+  )
+);
+
+passport.use(
+  'googleToken',
+  new GooglePlusTokenStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      try {
+        const user = await User.findOne({ 'google.id': profile.id });
+        if (user) {
+          return cb(null, user);
+        }
+        const newUser = new User({
+          method: 'google',
+          google: {
             id: profile.id,
             email: profile.emails[0].value,
             fullName: profile.displayName,

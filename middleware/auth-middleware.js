@@ -15,6 +15,10 @@ exports.isUser = (req, res, next) => {
     .catch(err => res.status(500).send(err));
 };
 
-exports.authenticateFacebookStrategy = passport.authenticate('facebook', {
+exports.authenticateFacebookStrategy = passport.authenticate('facebookToken', {
+  session: false
+});
+
+exports.authenticateGoogleStrategy = passport.authenticate('googleToken', {
   session: false
 });
