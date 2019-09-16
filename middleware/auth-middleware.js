@@ -9,16 +9,17 @@ exports.isUser = (req, res, next) => {
   }
   User.findById(req.session.user._id)
     .then(user => {
+      if (!user) {
+        return next();
+      }
       req.user = user;
       next();
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err => {
+      next(new Error(err));
+    });
 };
 
-exports.authenticateFacebookStrategy = passport.authenticate('facebookToken', {
-  session: false
-});
+exports.authenticateFacebookStrategy = passport.authenticate('facebookToken');
 
-exports.authenticateGoogleStrategy = passport.authenticate('googleToken', {
-  session: false
-});
+exports.authenticateGoogleStrategy = passport.authenticate('googleToken');

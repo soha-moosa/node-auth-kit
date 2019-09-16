@@ -22,7 +22,8 @@ router.post(
 router.post(
   '/login',
   [validateLoginEmail, validatePassword],
-  authController.login
+  authController.login,
+  authController.loginSuccess
 );
 
 router.post(

@@ -47,14 +47,21 @@ passport.use(
         if (user) {
           return cb(null, user);
         }
+        const {
+          id,
+          displayName,
+          name: { givenName, familyName },
+          emails
+        } = profile;
+        const email = emails[0].value;
         const newUser = new User({
           method: 'facebook',
           facebook: {
-            id: profile.id,
-            email: profile.emails[0].value,
-            fullName: profile.displayName,
-            firstName: profile.name.givenName,
-            lastName: profile.name.familyName
+            id,
+            email,
+            fullName: displayName,
+            firstName: givenName,
+            lastName: familyName
           }
         });
         await newUser.save();
@@ -84,14 +91,21 @@ passport.use(
         if (user) {
           return cb(null, user);
         }
+        const {
+          id,
+          displayName,
+          name: { givenName, familyName },
+          emails
+        } = profile;
+        const email = emails[0].value;
         const newUser = new User({
           method: 'google',
           google: {
-            id: profile.id,
-            email: profile.emails[0].value,
-            fullName: profile.displayName,
-            firstName: profile.name.givenName,
-            lastName: profile.name.familyName
+            id,
+            email,
+            fullName: displayName,
+            firstName: givenName,
+            lastName: familyName
           }
         });
         await newUser.save();
