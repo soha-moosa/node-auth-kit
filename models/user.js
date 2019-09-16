@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 const userModel = new Schema({
   method: {
     type: String,
-    enum: ['local', 'facebook'],
+    enum: ['local', 'facebook', 'google'],
     required: true
   },
   local: {
@@ -18,6 +18,13 @@ const userModel = new Schema({
     }
   },
   facebook: {
+    id: String,
+    email: String,
+    fullName: String,
+    firstName: String,
+    lastName: String
+  },
+  google: {
     id: String,
     email: String,
     fullName: String,

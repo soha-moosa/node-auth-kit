@@ -5,9 +5,11 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
 
 const authRoutes = require('./routes/auth');
-const authMiddleware = require('./middleware/auth-middleware');
+const { isUser } = require('./middleware/auth-middleware');
+const User = require('./models/user');
 
 const store = new MongoDBStore({
   uri: process.env.MONGODB_URI,
@@ -18,11 +20,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(cookieParser(process.env.SECRET));
 app.use(
   session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: { secure: true },
     store
   })
 );
@@ -31,7 +35,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(authMiddleware.isUser);
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+app.use(isUser);
 app.use(authRoutes);
 
 mongoose

@@ -55,51 +55,66 @@ exports.login = async (req, res, next) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
       return res.status(404).send(validationErrors.array()[0].msg);
+    } else {
+      await passport.authenticate('local')(req, res, next);
     }
-    await passport.authenticate('local', (err, user, info) => {
-      if (err) return res.status(404).send(err);
-      if (user) {
-        req.session.user = user;
-        return req.session.save(err => {
-          if (err) return res.status(404).send(err);
-          const token = signToken(req.user);
-          res.status(200).send({
-            token,
-            message: 'Logged in successfully!'
-          });
-        });
-      } else {
-        return res.status(401).send(info);
-      }
-    })(req, res, next);
   } catch (err) {
     res.status(500).send(err);
   }
 };
 
+exports.loginSuccess = (req, res, next) => {
+  const token = signToken(req.user);
+  return res.status(200).send({
+    token,
+    message: 'Logged in successfully!'
+  });
+};
+
 exports.facebookLogin = async (req, res) => {
   try {
-    if (req.user.err) {
+    const { user } = req;
+    if (user.err) {
       return res.status(401).send({
         message: 'Facebook authentication failed!',
-        error
+        error: user.err
       });
-    } else if (req.user) {
-      req.session.user = req.user;
-      return req.session.save(err => {
-        if (err) return res.status(404).send(err);
-        const token = signToken(req.user);
-        return res.status(200).send({
-          token,
-          message: 'Logged in successfully via facebook!'
-        });
+    } else if (user) {
+      const token = signToken(user);
+      return res.status(200).send({
+        token,
+        message: 'Logged in successfully via facebook!'
       });
     } else {
       return res.status(401).send({
         message: 'Facebook authentication failed!'
       });
     }
-  } catch (error) {
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+exports.googleLogin = async (req, res) => {
+  try {
+    const { user } = req;
+    if (user.err) {
+      return res.status(401).send({
+        message: 'Google authentication failed!',
+        error
+      });
+    } else if (user) {
+      const token = signToken(user);
+      return res.status(200).send({
+        token,
+        message: 'Logged in successfully via google!'
+      });
+    } else {
+      return res.status(401).send({
+        message: 'Google authentication failed!'
+      });
+    }
+  } catch (err) {
     res.status(500).send(err);
   }
 };

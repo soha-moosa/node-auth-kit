@@ -9,7 +9,8 @@ const {
 } = require('../middleware/validation-middleware');
 
 const {
-  authenticateFacebookStrategy
+  authenticateFacebookStrategy,
+  authenticateGoogleStrategy
 } = require('../middleware/auth-middleware');
 
 router.post(
@@ -21,7 +22,8 @@ router.post(
 router.post(
   '/login',
   [validateLoginEmail, validatePassword],
-  authController.login
+  authController.login,
+  authController.loginSuccess
 );
 
 router.post(
@@ -32,6 +34,20 @@ router.post(
     if (error) {
       return res.status(401).send({
         message: 'Facebook authentication failed!',
+        error
+      });
+    }
+  }
+);
+
+router.post(
+  '/google',
+  authenticateGoogleStrategy,
+  authController.googleLogin,
+  (error, req, res) => {
+    if (error) {
+      return res.status(401).send({
+        message: 'Google authentication failed!',
         error
       });
     }
