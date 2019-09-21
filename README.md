@@ -54,7 +54,7 @@ A starter boiler plate for node application with authentication, which includes 
 ## Download / Clone
 
 ###### Clone the repo using
-```git clone <https://github.com/soha-moosa/node-auth-kit.git>```
+```git clone https://github.com/soha-moosa/node-auth-kit.git```
 
 ## License
 
