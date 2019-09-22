@@ -20,7 +20,7 @@ A starter boiler plate for node application with authentication, which includes 
     "Node_ENV": "", // Add your development environment mode
     "PORT": , // Server will listen at this PORT
     "SECRET": "", // Add SECRET to be used in sessions or jwt
-    "MONGODB_URI": "", // Add your mongodb atlast connection URL here
+    "MONGODB_URI": "", // Add your mongodb database connection URL here
     "SEND_GRID_API_KEY": "", // Add your send grid api key here
     "JWT_SUBJECT": "", // Add subject to be used in JWT options
     "FACEBOOK_APP_ID": "", // Add your facebook app id here process is defined below
