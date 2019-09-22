@@ -4,31 +4,34 @@ A starter boiler plate for node application with authentication, which includes 
 
 ## Getting Started
 
-1. ### Installation
+1. ### Clone the repo using
+```git clone https://github.com/soha-moosa/node-auth-kit.git```
+
+2. ### Installation
 
 - Run `npm install` to install all project dependencies available in package.json file.
 
-2. ### Add nodemon.json
+3. ### Add nodemon.json
 
-- add nodemon.json file with your data
+- Add nodemon.json file with your data at your root directory.
 
 ```{
   "env": {
-    "Node_ENV": "",
-    "PORT": ,
-    "SECRET": "",
-    "MONGODB_URI": "",
-    "SEND_GRID_API_KEY": "",
-    "JWT_SUBJECT": "",
-    "FACEBOOK_APP_ID": "",
-    "FACEBOOK_APP_SECRET": "",
-    "GOOGLE_CLIENT_ID": "",
-    "GOOGLE_CLIENT_SECRET": ""
+    "Node_ENV": "", // Add your development environment mode
+    "PORT": , // Server will listen at this PORT
+    "SECRET": "", // Add SECRET to be used in sessions or jwt
+    "MONGODB_URI": "", // Add your mongodb atlast connection URL here
+    "SEND_GRID_API_KEY": "", // Add your send grid api key here
+    "JWT_SUBJECT": "", // Add subject to be used in JWT options
+    "FACEBOOK_APP_ID": "", // Add your facebook app id here process is defined below
+    "FACEBOOK_APP_SECRET": "", // Add your facebook app secret here process is defined below
+    "GOOGLE_CLIENT_ID": "", // Add your google client id here process is defined below
+    "GOOGLE_CLIENT_SECRET": "" // Add your google client secret here process is defined below
   }
 }
 ```
 
-3. ### Development mode
+4. ### Development mode
 
 - Having everything installed run `npm start`. This command will start your server using nodemon.json as included in the package.json file.
 
@@ -50,11 +53,6 @@ A starter boiler plate for node application with authentication, which includes 
 * You can Login a user using email and password.
 * You can Signup a user using Facebook Account.
 * You can Signup a user using Gmail Account.
-
-## Download / Clone
-
-###### Clone the repo using
-```git clone https://github.com/soha-moosa/node-auth-kit.git```
 
 ## License
 
