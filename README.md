@@ -15,7 +15,8 @@ A starter boiler plate for node application with authentication, which includes 
 
 - Add nodemon.json file with your data at your root directory.
 
-```{
+```
+{
   "env": {
     "Node_ENV": "", // Add your development environment mode
     "PORT": , // Server will listen at this PORT
