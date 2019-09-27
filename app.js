@@ -1,15 +1,18 @@
-const app = require('express')();
-const mongoose = require('mongoose');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const passport = require('passport');
-const cookieParser = require('cookie-parser');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import session from 'express-session';
+import connectMongoDBSession from 'connect-mongodb-session';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
 
-const authRoutes = require('./routes/auth');
-const { isUser } = require('./middleware/auth-middleware');
-const User = require('./models/user');
+import authRoutes from './routes/auth';
+import { isUser } from './middleware/auth-middleware';
+import User from './models/user';
+
+const app = express();
+const MongoDBStore = connectMongoDBSession(session);
 
 const store = new MongoDBStore({
   uri: process.env.MONGODB_URI,

@@ -1,7 +1,7 @@
-const passport = require('passport');
+import passport from 'passport';
 
-const User = require('../models/user');
-require('../controllers/passport');
+import User from '../models/user';
+import '../controllers/passport';
 
 exports.isUser = (req, res, next) => {
   if (!req.session.user) {
@@ -20,6 +20,6 @@ exports.isUser = (req, res, next) => {
     });
 };
 
-exports.authenticateFacebookStrategy = passport.authenticate('facebookToken');
+export const authenticateFacebookStrategy = passport.authenticate('facebookToken');
 
-exports.authenticateGoogleStrategy = passport.authenticate('googleToken');
+export const authenticateGoogleStrategy = passport.authenticate('googleToken');

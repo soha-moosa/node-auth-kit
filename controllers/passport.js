@@ -1,9 +1,9 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const FacebookTokenStrategy = require('passport-facebook-token');
-const GooglePlusTokenStrategy = require('passport-google-plus-token');
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import FacebookTokenStrategy from 'passport-facebook-token';
+import GooglePlusTokenStrategy from 'passport-google-plus-token';
 
-const User = require('../models/user');
+import User from '../models/user';
 
 /**
  * @LocalStrategy : Local authentication strategy authenticates users using email and password

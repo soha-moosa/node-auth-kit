@@ -1,8 +1,8 @@
-const { body } = require('express-validator');
+import { body } from 'express-validator';
 
-const User = require('../models/user');
+import User from '../models/user';
 
-exports.validateSignupEmail = body(
+export const validateSignupEmail = body(
   'email',
   'Please enter a valid e-mail address.'
 )
@@ -18,14 +18,14 @@ exports.validateSignupEmail = body(
   })
   .normalizeEmail();
 
-exports.validateLoginEmail = body(
+export const validateLoginEmail = body(
   'email',
   'Please enter a valid e-mail address.'
 )
   .isEmail()
   .normalizeEmail();
 
-exports.validatePassword = body(
+export const validatePassword = body(
   'password',
   'Please enter a alphanumeric password and at least 6 characters long.'
 )
@@ -33,7 +33,7 @@ exports.validatePassword = body(
   .isAlphanumeric()
   .trim();
 
-exports.validateConfirmPassword = body('confirmPassword')
+export const validateConfirmPassword = body('confirmPassword')
   .trim()
   .custom((value, { req }) => {
     if (value !== req.body.password) {
