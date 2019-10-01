@@ -1,17 +1,19 @@
-const router = require('express').Router();
+import { Router } from 'express';
 
-const authController = require('../controllers/auth');
-const {
+import * as authController from '../controllers/auth';
+import {
   validateSignupEmail,
   validateLoginEmail,
   validatePassword,
   validateConfirmPassword
-} = require('../middleware/validation-middleware');
+} from '../middleware/validation-middleware';
 
-const {
+import {
   authenticateFacebookStrategy,
   authenticateGoogleStrategy
-} = require('../middleware/auth-middleware');
+} from '../middleware/auth-middleware';
+
+const router = Router();
 
 router.post(
   '/signup',
@@ -54,4 +56,4 @@ router.post(
   }
 );
 
-module.exports = router;
+export default router;

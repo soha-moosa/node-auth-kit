@@ -1,5 +1,5 @@
-const nodemailer = require('nodemailer');
-const sendGridTransport = require('nodemailer-sendgrid-transport');
+import nodemailer from 'nodemailer';
+import sendGridTransport from 'nodemailer-sendgrid-transport';
 
 const transporter = nodemailer.createTransport(
   sendGridTransport({
@@ -30,4 +30,5 @@ const sendMail = (userEmail, res) => {
     }
   );
 };
-module.exports = sendMail;
+
+export default sendMail;

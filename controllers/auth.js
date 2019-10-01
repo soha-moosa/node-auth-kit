@@ -1,11 +1,11 @@
-const bcrypt = require('bcryptjs');
-const { validationResult } = require('express-validator');
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcryptjs';
+import { validationResult } from 'express-validator';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
 
-const User = require('../models/user');
-const sendMail = require('../services/sendGrid');
-require('./passport');
+import User from '../models/user';
+import sendMail from '../services/sendGrid';
+import './passport';
 
 const signToken = user => {
   return jwt.sign(
@@ -19,7 +19,7 @@ const signToken = user => {
   );
 };
 
-exports.signup = async (req, res, next) => {
+export const signup = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const errors = validationResult(req);
@@ -50,7 +50,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.login = async (req, res, next) => {
+export const login = async (req, res, next) => {
   try {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
@@ -63,7 +63,7 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.loginSuccess = (req, res, next) => {
+export const loginSuccess = (req, res, next) => {
   const token = signToken(req.user);
   return res.status(200).send({
     token,
@@ -71,7 +71,7 @@ exports.loginSuccess = (req, res, next) => {
   });
 };
 
-exports.facebookLogin = async (req, res) => {
+export const facebookLogin = async (req, res) => {
   try {
     const { user } = req;
     if (user.err) {
@@ -95,7 +95,7 @@ exports.facebookLogin = async (req, res) => {
   }
 };
 
-exports.googleLogin = async (req, res) => {
+export const googleLogin = async (req, res) => {
   try {
     const { user } = req;
     if (user.err) {

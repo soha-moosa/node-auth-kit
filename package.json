@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon --exec babel-node app.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/soha-moosa/node-auth-kit#readme",
   "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
     "nodemon": "^1.19.2"
   },
   "dependencies": {

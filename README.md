@@ -1,6 +1,6 @@
 # node-auth-kit
 
-A starter boiler plate for node application with authentication, which includes Google, Facebook and Local - email/password authentication strategies using passport.js &amp; JWT.
+A starter boilerplate for node applications with **ES6** support and authentication, which includes Google, Facebook and Local - email/password authentication strategies using passport.js &amp; JWT.
 
 ## Getting Started
 
@@ -15,7 +15,8 @@ A starter boiler plate for node application with authentication, which includes 
 
 - Add nodemon.json file with your data at your root directory.
 
-```{
+```
+{
   "env": {
     "Node_ENV": "", // Add your development environment mode
     "PORT": , // Server will listen at this PORT
