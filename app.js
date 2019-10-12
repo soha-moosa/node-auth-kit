@@ -1,7 +1,7 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
@@ -17,8 +17,8 @@ const store = new MongoDBStore({
 });
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser(process.env.SECRET));
 app.use(
