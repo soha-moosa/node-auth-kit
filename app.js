@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import session from 'express-session';
 import connectMongoDBSession from 'connect-mongodb-session';
 import passport from 'passport';
