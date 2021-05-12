@@ -33,7 +33,7 @@
     "express-validator": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.12",
-    "nodemailer": "^6.3.0",
+    "nodemailer": "^6.4.16",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0",
